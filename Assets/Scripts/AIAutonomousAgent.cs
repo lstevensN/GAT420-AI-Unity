@@ -1,18 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class AIAutomousAgent : AIAgent
 {
-    public AIPerception perception = null;
+    public AIPerception seekPerception = null;
+    public AIPerception fleePerception = null;
+    public AIPerception flockPerception = null;
 
     private void Update()
     {
         // seek
-        var gameObjects = perception.GetGameObjects();
-        if (gameObjects.Length > 0 )
+        if (seekPerception != null)
         {
-            movement.ApplyForce(Seek(gameObjects[0]));
+            var gameObjects = seekPerception.GetGameObjects();
+            if (gameObjects.Length > 0)
+            {
+                movement.ApplyForce(Seek(gameObjects[0]));
+            }
+        }
+
+        // flee
+        if (fleePerception != null)
+        {
+            var gameObjects = fleePerception.GetGameObjects();
+            if (gameObjects.Length > 0)
+            {
+                Vector3 force = Flee(gameObjects[0]);
+                movement.ApplyForce(force);
+            }
+        }
+
+        // flock
+        if (flockPerception != null)
+        {
+            var gameObjects = flockPerception.GetGameObjects();
+            if (gameObjects.Length > 0)
+            {
+                movement.ApplyForce(Cohesion(gameObjects));
+                movement.ApplyForce(Separation(gameObjects, 3));
+                movement.ApplyForce(Alignment(gameObjects));
+            }
         }
 
         transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -10, -10 ), new Vector3(10, 10, 10));
@@ -21,6 +50,59 @@ public class AIAutomousAgent : AIAgent
     private Vector3 Seek(GameObject target)
     {
         Vector3 direction = target.transform.position - transform.position;
+        return GetSteeringForce(direction);
+    }
+
+    private Vector3 Cohesion(GameObject[] neighbors)
+    {
+        Vector3 positions = Vector3.zero;
+        foreach (var neighbor in neighbors)
+        {
+            positions += neighbor.transform.position;
+        }
+
+        Vector3 center = positions / neighbors.Length;
+        Vector3 direction = center - transform.position;
+
+        Vector3 force = GetSteeringForce(direction);
+
+        return force;
+    }
+
+    private Vector3 Separation(GameObject[] neighbors, float radius)
+    {
+        Vector3 separation = Vector3.zero;
+        foreach (var neighbor in neighbors)
+        {
+            Vector3 direction = (transform.position - neighbor.transform.position);
+            if (direction.magnitude > radius) 
+            {
+                separation += direction / direction.sqrMagnitude;
+            }
+        }
+
+        Vector3 force = GetSteeringForce(separation);
+
+        return force;
+    }
+
+    private Vector3 Alignment(GameObject[] neighbors) 
+    {
+        Vector3 velocities = Vector3.zero;
+        foreach (var neighbor in neighbors)
+        {
+            velocities += neighbor.GetComponent<AIAgent>().movement.Velocity;
+        }
+
+        Vector3 averageVelocity = velocities / neighbors.Length;
+        Vector3 force = GetSteeringForce(averageVelocity);
+
+        return force;
+    }
+
+    private Vector3 Flee(GameObject target)
+    {
+        Vector3 direction = transform.position - target.transform.position;
         return GetSteeringForce(direction);
     }
 
