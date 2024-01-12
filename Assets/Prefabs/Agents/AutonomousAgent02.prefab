@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e64b96dcd4b3e4e8b0248cb917336d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagName: Agent01
+  tagName: Agent02
   distance: 5
   maxAngle: 45
 --- !u!135 &4268457391521657878
