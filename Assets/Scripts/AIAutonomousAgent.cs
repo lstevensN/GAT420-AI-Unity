@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class AIAutomousAgent : AIAgent
 {
-    public AIPerception seekPerception = null;
-    public AIPerception fleePerception = null;
-    public AIPerception flockPerception = null;
+    [SerializeField] AIPerception seekPerception = null;
+    [SerializeField] AIPerception fleePerception = null;
+    [SerializeField] AIPerception flockPerception = null;
+    [SerializeField] AIPerception obstaclePerception = null;
+
 
     private void Update()
     {
@@ -17,7 +19,8 @@ public class AIAutomousAgent : AIAgent
             var gameObjects = seekPerception.GetGameObjects();
             if (gameObjects.Length > 0)
             {
-                movement.ApplyForce(Seek(gameObjects[0]));
+                Vector3 force = Seek(gameObjects[0]);
+                movement.ApplyForce(force);
             }
         }
 
@@ -44,13 +47,35 @@ public class AIAutomousAgent : AIAgent
             }
         }
 
-        transform.position = Utilities.Wrap(transform.position, new Vector3(-10, -10, -10 ), new Vector3(10, 10, 10));
+        // obstacle avoidance
+        //if (obstaclePerception != null)
+        //{
+        //    if (((AISphereCastPerception)obstaclePerception).CheckDirection(Vector3.forward))
+        //    {
+        //        Vector3 open = Vector3.zero;
+
+        //        if (((AISphereCastPerception)obstaclePerception).GetOpenDirection(ref open))
+        //        {
+        //            movement.ApplyForce(GetSteeringForce(open) * 5);
+        //        }
+        //    }
+        //}
+
+        // cancel y movement
+        Vector3 acceleration = movement.Acceleration;
+        acceleration.y = 0;
+        movement.Acceleration = acceleration;
+
+        // wrap position in world
+        transform.position = Utilities.Wrap(transform.position, new Vector3(-20, -20, -20 ), new Vector3(20, 20, 20));
     }
 
     private Vector3 Seek(GameObject target)
     {
         Vector3 direction = target.transform.position - transform.position;
-        return GetSteeringForce(direction);
+        Vector3 force = GetSteeringForce(direction);
+
+        return force;
     }
 
     private Vector3 Cohesion(GameObject[] neighbors)

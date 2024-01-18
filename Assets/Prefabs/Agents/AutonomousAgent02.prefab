@@ -11,7 +11,9 @@ GameObject:
   - component: {fileID: 1802251737089671480}
   - component: {fileID: 8360425099001998209}
   - component: {fileID: 817931736000931462}
+  - component: {fileID: 5997326036695211960}
   - component: {fileID: 5443648613465295169}
+  - component: {fileID: 2692650586667356544}
   - component: {fileID: 4268457391521657878}
   m_Layer: 0
   m_Name: AutonomousAgent02
@@ -49,9 +51,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 817931736000931462}
-  seekPerception: {fileID: 5443648613465295169}
+  seekPerception: {fileID: 5997326036695211960}
   fleePerception: {fileID: 5443648613465295169}
-  flockPerception: {fileID: 5443648613465295169}
+  flockPerception: {fileID: 5997326036695211960}
+  obstaclePerception: {fileID: 2692650586667356544}
 --- !u!114 &817931736000931462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,9 +69,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 5
   minSpeed: 5
-  maxForce: 5
+  maxForce: 15
   turnRate: 90
---- !u!114 &5443648613465295169
+--- !u!114 &5997326036695211960
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -82,7 +85,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tagName: Agent02
   distance: 5
+  maxAngle: 180
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &5443648613465295169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243988438215468770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32e64b96dcd4b3e4e8b0248cb917336d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: Agent03
+  distance: 5
   maxAngle: 45
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &2692650586667356544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1243988438215468770}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6cc19919c584e4696034169765b30d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tagName: 
+  distance: 5
+  maxAngle: 80
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 64
+  numRaycast: 15
 --- !u!135 &4268457391521657878
 SphereCollider:
   m_ObjectHideFlags: 0

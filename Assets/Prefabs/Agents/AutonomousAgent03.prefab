@@ -194,7 +194,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxSpeed: 5
   minSpeed: 5
-  maxForce: 5
+  maxForce: 15
   turnRate: 90
 --- !u!114 &5964458616848320704
 MonoBehaviour:
@@ -208,8 +208,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e64b96dcd4b3e4e8b0248cb917336d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tagName: Agent01
-  distance: 5
+  tagName: Agent03
+  distance: 15
   maxAngle: 45
 --- !u!135 &4336702057546545738
 SphereCollider:
