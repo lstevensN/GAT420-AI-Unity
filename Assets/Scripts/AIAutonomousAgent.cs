@@ -41,9 +41,9 @@ public class AIAutomousAgent : AIAgent
             var gameObjects = flockPerception.GetGameObjects();
             if (gameObjects.Length > 0)
             {
-                movement.ApplyForce(Cohesion(gameObjects));
-                movement.ApplyForce(Separation(gameObjects, 3));
-                movement.ApplyForce(Alignment(gameObjects));
+                movement.ApplyForce(Cohesion(gameObjects, 3));
+                movement.ApplyForce(Separation(gameObjects, 10));
+                movement.ApplyForce(Alignment(gameObjects, 3));
             }
         }
 
@@ -78,49 +78,81 @@ public class AIAutomousAgent : AIAgent
         return force;
     }
 
-    private Vector3 Cohesion(GameObject[] neighbors)
+    private Vector3 Cohesion(GameObject[] neighbors, float radius)
     {
-        Vector3 positions = Vector3.zero;
+        Vector3 cohesionDirection = Vector3.zero;
+        int cohesionCount = 0;
+
         foreach (var neighbor in neighbors)
         {
-            positions += neighbor.transform.position;
+            var distance = Vector3.Distance(neighbor.transform.position, transform.position);
+            if (distance < radius)
+            {
+                cohesionDirection += neighbor.transform.position - transform.position;
+                cohesionCount++;
+            }
         }
 
-        Vector3 center = positions / neighbors.Length;
-        Vector3 direction = center - transform.position;
+        if (cohesionCount > 0)
+        {
+            cohesionDirection /= cohesionCount;
+        }
 
-        Vector3 force = GetSteeringForce(direction);
+        cohesionDirection -= transform.position;
+
+        Vector3 force = GetSteeringForce(cohesionDirection * 0.16f);
 
         return force;
     }
 
     private Vector3 Separation(GameObject[] neighbors, float radius)
     {
-        Vector3 separation = Vector3.zero;
+        Vector3 separationDirection = Vector3.zero;
+        int separationCount = 0;
+
         foreach (var neighbor in neighbors)
         {
-            Vector3 direction = (transform.position - neighbor.transform.position);
-            if (direction.magnitude > radius) 
+            var distance = Vector3.Distance(neighbor.transform.position, transform.position);
+            if (distance < radius) 
             {
-                separation += direction / direction.sqrMagnitude;
+                separationDirection += neighbor.transform.position - transform.position;
+                separationCount++;
             }
         }
 
-        Vector3 force = GetSteeringForce(separation);
+        if (separationCount > 0)
+        {
+            separationDirection /= separationCount;
+        }
+
+        separationDirection = -separationDirection;
+
+        Vector3 force = GetSteeringForce(separationDirection * 0.5f);
 
         return force;
     }
 
-    private Vector3 Alignment(GameObject[] neighbors) 
+    private Vector3 Alignment(GameObject[] neighbors, float radius) 
     {
-        Vector3 velocities = Vector3.zero;
+        Vector3 alignmentDirection = Vector3.zero;
+        int alignmentCount = 0;
+
         foreach (var neighbor in neighbors)
         {
-            velocities += neighbor.GetComponent<AIAgent>().movement.Velocity;
+            var distance = Vector3.Distance(neighbor.transform.position, transform.position);
+            if (distance < radius)
+            {
+                alignmentDirection += neighbor.transform.forward;
+                alignmentCount++;
+            }
         }
 
-        Vector3 averageVelocity = velocities / neighbors.Length;
-        Vector3 force = GetSteeringForce(averageVelocity);
+        if (alignmentCount > 0)
+        {
+            alignmentDirection /= alignmentCount;
+        }
+
+        Vector3 force = GetSteeringForce(alignmentDirection * 0.34f);
 
         return force;
     }
