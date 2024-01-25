@@ -10,6 +10,7 @@ public class AINavNode : MonoBehaviour
 
 	public float Cost { get; set; } = float.MaxValue;
 	public AINavNode Parent { get; set; } = null;
+	public bool Visted { get; set; } = false;
 
 	public AINavNode GetRandomNeighbor()
 	{
@@ -22,7 +23,7 @@ public class AINavNode : MonoBehaviour
 		{
 			if (navPath.targetNode == this)
 			{
-				navPath.targetNode = GetRandomNeighbor();
+				navPath.targetNode = navPath.GetNextAINavNode(navPath.targetNode);
 			}
 		}
 	}
@@ -33,8 +34,8 @@ public class AINavNode : MonoBehaviour
 		{
 			if (navPath.targetNode == this)
 			{
-				navPath.targetNode = GetRandomNeighbor();
-			}
+				navPath.targetNode = navPath.GetNextAINavNode(navPath.targetNode);
+            }
 		}
 	}
 
@@ -69,5 +70,16 @@ public class AINavNode : MonoBehaviour
 		return (nodes == null) ? null : nodes[Random.Range(0, nodes.Length)];
 	}
 
-	#endregion
+    public static void ResetNodes()
+    {
+        var nodes = GetAINavNodes();
+        foreach (var node in nodes)
+        {
+            node.Visted = false;
+            node.Parent = null;
+            node.Cost = float.MaxValue;
+        }
+    }
+
+    #endregion
 }
