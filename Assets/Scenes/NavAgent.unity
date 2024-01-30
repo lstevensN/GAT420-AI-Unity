@@ -832,7 +832,7 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 136
-  active: 1
+  active: 0
 --- !u!114 &670412635
 MonoBehaviour:
   m_ObjectHideFlags: 0
