@@ -5,6 +5,7 @@ using UnityEngine;
 public class AIIdleState : AIState
 {
     float timer;
+    int path;
 
     public AIIdleState(AIStateAgent agent) : base(agent)
     {
@@ -15,26 +16,35 @@ public class AIIdleState : AIState
     {
         Debug.Log("Idle enter");
 
-        timer = Time.time + Random.Range(1, 2);
+        Random.seed = System.DateTime.Now.Millisecond;
+
+        path = Random.Range(0, 7);
+        timer = Time.time + Random.Range(2, 5);
+        agent.animator.SetBool("Idle", true);
+
+        agent.nav.enabled = false;
     }
 
     public override void OnExit()
     {
         Debug.Log("Idle exit");
+        agent.animator.SetBool("Idle", false);
+
+        agent.nav.enabled = true;
     }
 
     public override void OnUpdate()
     {
-        Debug.Log("Idle update");
+        agent.movement.Velocity = Vector3.zero;
 
         if (Time.time > timer)
         {
-            agent.stateMachine.SetState(nameof(AIPatrolState));
+            if (path != 1) agent.stateMachine.SetState(nameof(AIPatrolState));
+            else agent.stateMachine.SetState(nameof(AIDanceState));
         }
 
-        var enemies = agent.enemyPerception.GetGameObjects();
-
-        if (enemies.Length > 0) { agent.stateMachine.SetState(nameof(AIAttackState)); }
+        var friends = agent.friendPerception.GetGameObjects();
+        if (friends.Length > 0) agent.stateMachine.SetState(nameof(AIWaveState));
     }
 }
 

@@ -64,6 +64,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NavAgent01
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: e25d851406e7a8a458356b32f8d4a275, type: 3}
+      propertyPath: m_TagString
+      value: Agent02
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -86,6 +90,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e25d851406e7a8a458356b32f8d4a275, type: 3}
       insertIndex: -1
       addedObject: {fileID: 5293710371140239895}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: e25d851406e7a8a458356b32f8d4a275, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2663624669381237969}
   m_SourcePrefab: {fileID: 100100000, guid: e25d851406e7a8a458356b32f8d4a275, type: 3}
 --- !u!1 &9136622473977621051 stripped
 GameObject:
@@ -101,7 +108,7 @@ Animator:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9136622473977621051}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
+  m_Avatar: {fileID: 9000000, guid: e25d851406e7a8a458356b32f8d4a275, type: 3}
   m_Controller: {fileID: 9100000, guid: 9e85a8f78865469409bc8a6c764e3c37, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
@@ -154,8 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fb3726620d7560458f5b88586eb832b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxSpeed: 5
-  minSpeed: 5
+  maxSpeed: 1
+  minSpeed: 1
   maxForce: 20
   turnRate: 120
 --- !u!136 &6595742127951592048
@@ -173,7 +180,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -203,8 +210,26 @@ Rigidbody:
     m_Bits: 0
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2663624669381237969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9136622473977621051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 904bac4772775b74a84af8ab86fca705, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 8923470915099989654}
+  animator: {fileID: 5197051726344381152}
+  enemyPerception: {fileID: 0}
+  friendPerception: {fileID: 0}
+  nav: {fileID: 5718149224341376927}
+  health: 50

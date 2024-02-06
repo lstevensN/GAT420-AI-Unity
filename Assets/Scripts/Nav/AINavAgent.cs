@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(AINavPath))]
 public class AINavAgent : AIAgent
 {
-	[SerializeField] AINavPath path;
+	[SerializeField] public AINavPath path;
     [SerializeField] AINavNode startNode;
 
     private void Start()

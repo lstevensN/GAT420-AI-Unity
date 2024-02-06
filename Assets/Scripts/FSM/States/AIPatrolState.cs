@@ -13,16 +13,14 @@ public class AIPatrolState : AIState
 
     public override void OnEnter()
     {
-        var navNode = AINavNode.GetRandomAINavNode();
-        destination = navNode.transform.position;
+        Debug.Log("Patrol enter");
+        agent.animator.SetBool("Walk", true);
     }
 
     public override void OnUpdate()
     {
         // move towards destination, go to idle if reached
-        agent.movement.MoveTowards(destination);
-
-        if (Vector3.Distance(agent.transform.position, destination) < 1)
+        if (Vector3.Distance(agent.transform.position, agent.nav.path.destination) < 0.95f)
         {
             agent.stateMachine.SetState(nameof(AIIdleState));
         }
@@ -36,7 +34,8 @@ public class AIPatrolState : AIState
 
     public override void OnExit()
     {
-
+        Debug.Log("Patrol exit");
+        agent.animator.SetBool("Walk", false);
     }
 }
 

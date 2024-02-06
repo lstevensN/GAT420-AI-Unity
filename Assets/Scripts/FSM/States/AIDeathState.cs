@@ -14,7 +14,9 @@ public class AIDeathState : AIState
     public override void OnEnter()
     {
         agent.animator?.SetTrigger("Death");
-        timer = Time.time + 2;
+        timer = Time.time + 5;
+        agent.nav.enabled = false;
+        agent.movement.Velocity = Vector3.zero;
     }
 
     public override void OnUpdate()
