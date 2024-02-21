@@ -232,4 +232,15 @@ MonoBehaviour:
   enemyPerception: {fileID: 0}
   friendPerception: {fileID: 0}
   nav: {fileID: 5718149224341376927}
-  health: 50
+  health:
+    value: 100
+  timer:
+    value: 0
+  destinationDistance:
+    value: 0
+  enemySeen:
+    value: 0
+  enemyDistance:
+    value: 0
+  enemyHealth:
+    value: 0

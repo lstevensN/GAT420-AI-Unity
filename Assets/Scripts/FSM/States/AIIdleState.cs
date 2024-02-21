@@ -9,7 +9,15 @@ public class AIIdleState : AIState
 
     public AIIdleState(AIStateAgent agent) : base(agent)
     {
+        //AIStateTransition transition = new AIStateTransition(nameof(AIPatrolState));
+        //transition.AddCondition(new FloatCondition(agent.timer, Condition.Predicate.LESS, 0));
 
+        //transitions.Add(transition);
+
+        //transition = new AIStateTransition(nameof(AIChaseState));
+        //transition.AddCondition(new BoolCondition(agent.enemySeen));
+
+        //transitions.Add(transition);
     }
 
     public override void OnEnter()
@@ -19,6 +27,7 @@ public class AIIdleState : AIState
         Random.seed = System.DateTime.Now.Millisecond;
 
         path = Random.Range(0, 7);
+        // agent.timer.value = Random.Range(2, 5);
         timer = Time.time + Random.Range(2, 5);
         agent.animator.SetBool("Idle", true);
 
@@ -36,6 +45,8 @@ public class AIIdleState : AIState
     public override void OnUpdate()
     {
         agent.movement.Velocity = Vector3.zero;
+
+        // if (transition.ToTransition()) agent.stateMachine.SetState(transition.nextState);
 
         if (Time.time > timer)
         {

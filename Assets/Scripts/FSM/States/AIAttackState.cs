@@ -8,7 +8,10 @@ public class AIAttackState : AIState
 
     public AIAttackState(AIStateAgent agent) : base(agent)
     {
+        //AIStateTransition transition = new AIStateTransition(nameof(AIPatrolState));
+        //transition.AddCondition(new FloatCondition(agent.timer, Condition.Predicate.LESS, 0));
 
+        //transitions.Add(transition);
     }
 
     public override void OnEnter()

@@ -160,7 +160,18 @@ MonoBehaviour:
   enemyPerception: {fileID: 1309612558260720027}
   friendPerception: {fileID: 9114112080569396066}
   nav: {fileID: -6186688440190579269}
-  health: 100
+  health:
+    value: 100
+  timer:
+    value: 0
+  destinationDistance:
+    value: 0
+  enemySeen:
+    value: 0
+  enemyDistance:
+    value: 0
+  enemyHealth:
+    value: 0
 --- !u!114 &8446164062717177729
 MonoBehaviour:
   m_ObjectHideFlags: 0
