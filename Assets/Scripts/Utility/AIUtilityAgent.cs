@@ -52,6 +52,17 @@ public class AIUtilityAgent : AIAgent
 	void Update()
 	{
 		animator.SetFloat("Speed", movement.Velocity.magnitude);
+		animator.SetFloat("Happiness", happiness);
+
+		if (happiness < 0.5f && happiness > 0.4f)
+		{
+			animator.SetBool("Sad", true);
+			movement.Velocity = Vector3.zero;
+		}
+		else
+		{
+            animator.SetBool("Sad", false);
+        }
 
 		// check if not using utility object, if not look for one to use
 		if (activeUtilityObject == null) 
@@ -90,7 +101,7 @@ public class AIUtilityAgent : AIAgent
 		movement.MoveTowards(utilityObject.target.position);
 
 		// wait until at destination position
-		yield return new WaitUntil(() => Vector3.Distance(utilityObject.target.position, movement.Destination) < 2);
+		yield return new WaitUntil(() => Vector3.Distance(utilityObject.target.position, transform.position) < 1.5f);
 
 		// play animation
 		animator.SetBool(utilityObject.animationName, true);
